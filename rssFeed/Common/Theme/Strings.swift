@@ -6,6 +6,8 @@
 //
 
 struct Strings {
+    static let empty = ""
+    
     struct FeedList {
         static let title = "Feed List"
     }
