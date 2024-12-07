@@ -23,3 +23,8 @@ private extension SettingsVC {
         self.view.backgroundColor = .systemIndigo
     }
 }
+
+// MARK: - ViewModelInjectable
+extension SettingsVC: ViewModelInjectable {
+    typealias ViewModel = SettingsVMProtocol
+}

@@ -23,3 +23,8 @@ private extension FavouritesVC {
         self.view.backgroundColor = .lightGray
     }
 }
+
+// MARK: - ViewModelInjectable
+extension FavouritesVC: ViewModelInjectable {
+    typealias ViewModel = FavouritesVMProtocol
+}

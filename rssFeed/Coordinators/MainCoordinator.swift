@@ -20,17 +20,35 @@ final class MainCoordinator: Coordinator {
     }
     
     override func start() {
-        setuptabBarController()
+        setupTabBarController()
     }
     
-    func setuptabBarController() {
-        mainTabBarVC.viewControllers = [
-            UINavigationController(rootViewController: FeedListVC()),
-            UINavigationController(rootViewController: FavouritesVC()),
-            UINavigationController(rootViewController: SettingsVC())
-        ]
+    func setupTabBarController() {
+        let feedNC = UINavigationController()
+        let feedCoordinator = FeedCoordinator(navigationController: feedNC)
+        push(childCoordinator: feedCoordinator)
         
+        let favouritesNC = UINavigationController()
+        let favouritesCoordinator = FavouritesCoordinator(navigationController: favouritesNC)
+        push(childCoordinator: favouritesCoordinator)
+        
+        let settingsNC = UINavigationController()
+        let settingsCoordinator = SettingsCoordinator(navigationController: settingsNC)
+        push(childCoordinator: settingsCoordinator)
+        
+        self.mainTabBarVC.viewControllers = [feedNC, favouritesNC, settingsNC]
+        setTabBarItems(feedNC: feedNC, favouritesNC: favouritesNC, settingsNC: settingsNC)
+        
+        mainTabBarVC.tabBar.tintColor = Colors.primary
         mainTabBarVC.selectedIndex = 0
         window.rootViewController = self.mainTabBarVC
+    }
+    
+    func setTabBarItems(feedNC: UINavigationController, favouritesNC: UINavigationController, settingsNC: UINavigationController) {
+        feedNC.tabBarItem = UITabBarItem(title: Strings.FeedList.title, image: UIImage(systemName: "list.bullet"), tag: 0)
+        
+        favouritesNC.tabBarItem = UITabBarItem(title: Strings.FeedList.title, image: UIImage(systemName: "star"), tag: 1)
+        
+        settingsNC.tabBarItem = UITabBarItem(title: Strings.FeedList.title, image: UIImage(systemName: "gearshape"), tag: 2)
     }
 }

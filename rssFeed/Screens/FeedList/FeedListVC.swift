@@ -1,5 +1,5 @@
 //
-//  FeedList.swift
+//  FeedListVC.swift
 //  rssFeed
 //
 //  Created by Toni Pavic on 26.11.2024..
@@ -19,7 +19,12 @@ final class FeedListVC: UIViewController {
 
 private extension FeedListVC {
     func configureSelf() {
-        title = "Feed List"
+        title = viewModel.title
         self.view.backgroundColor = .cyan
     }
+}
+
+// MARK: - ViewModelInjectable
+extension FeedListVC: ViewModelInjectable {
+    typealias ViewModel = FeedListVMProtocol
 }
