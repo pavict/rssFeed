@@ -7,6 +7,8 @@
 
 protocol SettingsVMProtocol {
     var title: String { get }
+    
+    func numberOfItems() -> Int
 }
 
 final class SettingsVM {
@@ -16,5 +18,9 @@ final class SettingsVM {
 extension SettingsVM: SettingsVMProtocol {
     var title: String {
         Strings.Settings.title
+    }
+    
+    func numberOfItems() -> Int {
+        return 1
     }
 }

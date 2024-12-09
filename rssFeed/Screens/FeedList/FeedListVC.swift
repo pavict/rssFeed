@@ -14,10 +14,8 @@ final class FeedListVC: UIViewController {
     private lazy var tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .insetGrouped)
         tv.register(FeedCell.self)
-//        tv.refreshControl = self.refreshControl
         tv.dataSource = self
         tv.delegate = self
-        tv.tableFooterView = UIView()
         tv.backgroundColor = Colors.clear
         tv.rowHeight = UITableView.automaticDimension
         return tv
@@ -35,7 +33,7 @@ final class FeedListVC: UIViewController {
 private extension FeedListVC {
     func configureSelf() {
         title = viewModel.title
-        self.view.backgroundColor = Colors.background
+        self.view.backgroundColor = Colors.tertiary
         
         addSubviews()
     }
@@ -44,9 +42,7 @@ private extension FeedListVC {
         view.addSubview(tableView)
         
         tableView.snp.makeConstraints {
-            $0.leading.trailing.equalTo(view.safeAreaInsets).inset(8)
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-10)
+            $0.edges.equalTo(view.safeAreaLayoutGuide.snp.edges)
         }
     }
 }

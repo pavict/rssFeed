@@ -18,5 +18,8 @@ struct Strings {
     
     struct Settings {
         static let title = "Settings"
+        static let notifications = "Notifications"
+        static let linkExternal = "Always open links in external browser"
+        static let darkMode = "Dark mode"
     }
 }

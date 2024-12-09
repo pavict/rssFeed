@@ -15,14 +15,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-                
-        // Create and start the coordinator
+
         if let window = window {
             mainCoordinator = MainCoordinator(window: window)
             mainCoordinator?.start()
+            
+            let isDarkModeOn = UserDefaults.standard.bool(forKey: "isDarkModeOn")
+            window.overrideUserInterfaceStyle = isDarkModeOn ? .dark : .light
         }
         
-        // Make the window visible
         window?.makeKeyAndVisible()
     }
 

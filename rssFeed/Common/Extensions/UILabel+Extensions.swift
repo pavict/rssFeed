@@ -10,8 +10,10 @@ import UIKit
 extension UILabel {
     static func label(with title: String,
                       font: UIFont = Fonts.body,
-                      textColor: UIColor = Colors.black,
-                      textAlignment: NSTextAlignment = .left) -> UILabel {
+                      textColor: UIColor = Colors.label,
+                      textAlignment: NSTextAlignment = .left,
+                      numberOfLines: Int = 0,
+                      lineBreakMode: NSLineBreakMode = .byWordWrapping) -> UILabel {
         let label = UILabel()
         label.font = font
         label.adjustsFontForContentSizeCategory = true
