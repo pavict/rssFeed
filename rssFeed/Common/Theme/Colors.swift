@@ -9,8 +9,7 @@ import UIKit
 
 struct Colors {
     static let primary = UIColor(named: "AccentColor")!
-    static let background = UIColor.systemBackground
+    static let tertiary = UIColor(named: "BackgroundColor")!
     static let clear = UIColor.clear
     static let label = UIColor.label
-    static let tertiary = UIColor.tertiarySystemGroupedBackground
 }

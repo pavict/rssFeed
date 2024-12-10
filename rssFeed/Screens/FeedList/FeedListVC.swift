@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import RxSwift
 
 final class FeedListVC: UIViewController {
     
     // MARK: - Private properties
+    
+    private let disposeBag = DisposeBag()
     
     private lazy var tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .insetGrouped)
@@ -35,7 +38,24 @@ private extension FeedListVC {
         title = viewModel.title
         self.view.backgroundColor = Colors.tertiary
         
+        state()
         addSubviews()
+    }
+    
+    func state() {
+        viewModel
+            .state
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] state in
+                switch state {
+                case .loading:
+                    Spinner.start()
+                    break
+                case .loaded, .empty, .customData:
+                    Spinner.stop()
+                    self.tableView.reloadData()
+                }
+            }).disposed(by: disposeBag)
     }
     
     func addSubviews() {
@@ -56,8 +76,8 @@ extension FeedListVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(for: indexPath, type: FeedCell.self)
         
-//        let item = viewModel.item(at: indexPath.row)
-//        cell.configure(with: item)
+        let item = viewModel.item(at: indexPath.row)
+        cell.configure(with: item)
         return cell
     }
 }

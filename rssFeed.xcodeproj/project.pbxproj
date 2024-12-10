@@ -10,6 +10,9 @@
 		152A2CA22D078DE300988ECD /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 152A2CA12D078DE300988ECD /* RxCocoa */; };
 		152A2CA42D078DE300988ECD /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 152A2CA32D078DE300988ECD /* RxRelay */; };
 		152A2CA62D078DE300988ECD /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 152A2CA52D078DE300988ECD /* RxSwift */; };
+		154BC4032D0853D600C5BC22 /* FeedKit in Frameworks */ = {isa = PBXBuildFile; productRef = 154BC4022D0853D600C5BC22 /* FeedKit */; };
+		154BC4082D0860EA00C5BC22 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 154BC4072D0860EA00C5BC22 /* SDWebImage */; };
+		154BC40A2D0860EA00C5BC22 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 154BC4092D0860EA00C5BC22 /* SDWebImageMapKit */; };
 		15D32F352CF5F3F700A2EAE9 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 15D32F342CF5F3F700A2EAE9 /* SnapKit */; };
 /* End PBXBuildFile section */
 
@@ -56,9 +59,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				154BC4082D0860EA00C5BC22 /* SDWebImage in Frameworks */,
 				152A2CA42D078DE300988ECD /* RxRelay in Frameworks */,
+				154BC4032D0853D600C5BC22 /* FeedKit in Frameworks */,
 				152A2CA22D078DE300988ECD /* RxCocoa in Frameworks */,
 				152A2CA62D078DE300988ECD /* RxSwift in Frameworks */,
+				154BC40A2D0860EA00C5BC22 /* SDWebImageMapKit in Frameworks */,
 				15D32F352CF5F3F700A2EAE9 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -115,6 +121,9 @@
 				152A2CA12D078DE300988ECD /* RxCocoa */,
 				152A2CA32D078DE300988ECD /* RxRelay */,
 				152A2CA52D078DE300988ECD /* RxSwift */,
+				154BC4022D0853D600C5BC22 /* FeedKit */,
+				154BC4072D0860EA00C5BC22 /* SDWebImage */,
+				154BC4092D0860EA00C5BC22 /* SDWebImageMapKit */,
 			);
 			productName = rssFeed;
 			productReference = 15DD3C762CF4939A009576F6 /* rssFeed.app */;
@@ -147,6 +156,8 @@
 			packageReferences = (
 				15D32F332CF5F3F700A2EAE9 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				1571A9042D078BC50024B812 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				154BC4012D0853D600C5BC22 /* XCRemoteSwiftPackageReference "FeedKit" */,
+				154BC4062D0860EA00C5BC22 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 15DD3C772CF4939A009576F6 /* Products */;
@@ -378,6 +389,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		154BC4012D0853D600C5BC22 /* XCRemoteSwiftPackageReference "FeedKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nmdias/FeedKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.1.2;
+			};
+		};
+		154BC4062D0860EA00C5BC22 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.20.0;
+			};
+		};
 		1571A9042D078BC50024B812 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift";
@@ -411,6 +438,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1571A9042D078BC50024B812 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
+		};
+		154BC4022D0853D600C5BC22 /* FeedKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 154BC4012D0853D600C5BC22 /* XCRemoteSwiftPackageReference "FeedKit" */;
+			productName = FeedKit;
+		};
+		154BC4072D0860EA00C5BC22 /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 154BC4062D0860EA00C5BC22 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
+		154BC4092D0860EA00C5BC22 /* SDWebImageMapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 154BC4062D0860EA00C5BC22 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImageMapKit;
 		};
 		15D32F342CF5F3F700A2EAE9 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;

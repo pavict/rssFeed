@@ -7,13 +7,15 @@
 
 import UIKit
 import SnapKit
+import FeedKit
+import SDWebImage
 
 final class FeedCell: UITableViewCell, ReusableView {
     
     // MARK: - Private properties
-    private lazy var feedNameLabel = UILabel.label(with: "RSS FEED NAME", font: Fonts.title2, textColor: Colors.primary, textAlignment: .natural)
+    private lazy var feedNameLabel = UILabel.label(with: Strings.empty, font: Fonts.title2, textColor: Colors.primary, textAlignment: .natural)
     
-    private lazy var descriptionLabel = UILabel.label(with: "This is a description of the feed.This is a description of the feed.This is a description of the feed.This is a description of the feed.This is a description of the feed.This is a description of the feed.This is a description of the feed.", font: Fonts.body, textColor: Colors.label, textAlignment: .left)
+    private lazy var descriptionLabel = UILabel.label(with: Strings.empty, font: Fonts.body, textColor: Colors.label, textAlignment: .left)
     
     private lazy var feedImageView: UIImageView = {
         let image = UIImageView()
@@ -68,5 +70,13 @@ private extension FeedCell {
         feedImageView.snp.makeConstraints {
             $0.size.height.equalTo(imageWidth)
         }
+    }
+}
+
+extension FeedCell {
+    func configure(with feed: RSSFeed) {
+        feedNameLabel.text = feed.title
+        descriptionLabel.text = feed.description
+        feedImageView.sd_setImage(with: URL(string: feed.image?.url ?? Strings.empty), placeholderImage: .rssFeedIcon)
     }
 }
