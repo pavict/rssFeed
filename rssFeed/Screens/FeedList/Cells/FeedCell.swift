@@ -9,10 +9,12 @@ import UIKit
 import SnapKit
 import FeedKit
 import SDWebImage
+import Lottie
 
 final class FeedCell: UITableViewCell, ReusableView {
     
     // MARK: - Private properties
+    
     private lazy var feedNameLabel = UILabel.label(with: Strings.empty, font: Fonts.title2, textColor: Colors.primary, textAlignment: .natural)
     
     private lazy var descriptionLabel = UILabel.label(with: Strings.empty, font: Fonts.body, textColor: Colors.label, textAlignment: .left)

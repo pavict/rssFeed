@@ -10,6 +10,7 @@ import FeedKit
 import RxSwift
 import RxRelay
 
+// MARK: - Enums
 enum State {
     case loading
     case loaded
@@ -17,6 +18,7 @@ enum State {
     case customData
 }
 
+// MARK: - Protocol
 protocol FeedListVMProtocol {
     var state: Observable<State> { get }
     var title: String { get }
@@ -33,7 +35,6 @@ final class FeedListVM {
         return _state.asObservable().throttle(.milliseconds(5), scheduler: MainScheduler.instance)
     }()
 
-    
     // MARK: - Private properties
     
     private lazy var _state = BehaviorRelay<State>(value: .loading)
@@ -43,6 +44,9 @@ final class FeedListVM {
     
     init() {
         getFeed()
+        if rssFeeds.isEmpty {
+            _state.accept(.empty)
+        }
     }
 }
 
@@ -57,12 +61,12 @@ private extension FeedListVM {
                 switch result {
                 case .success(let feed):
                     if let rssFeed = feed.rssFeed {
-                        self.rssFeeds.append(rssFeed)
+//                        self.rssFeeds.append(rssFeed)
                         for item in rssFeed.items ?? [] {
                             print("Item Title: \(item.title ?? "")")
                         }
                     }
-                    self._state.accept(.loaded)
+                    self._state.accept(.empty)
                 case .failure(let error):
                     self._state.accept(.empty)
                     print("Error: \(error)")

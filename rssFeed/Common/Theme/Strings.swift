@@ -10,16 +10,18 @@ struct Strings {
     
     struct FeedList {
         static let title = "Feed List"
+        static let empty = "No RSS feed added yet."
     }
     
     struct Favourites {
         static let title = "Favourites"
+        static let empty = "You haven't added any favourites."
     }
     
     struct Settings {
         static let title = "Settings"
         static let notifications = "Notifications"
-        static let linkExternal = "Always open links in external browser"
+        static let linkExternal = "Open links in externally"
         static let darkMode = "Dark mode"
     }
 }
