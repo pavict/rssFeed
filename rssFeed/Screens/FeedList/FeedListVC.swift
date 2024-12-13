@@ -25,6 +25,16 @@ final class FeedListVC: UIViewController {
         return view
     }()
     
+    private lazy var addButton: UIButton = {
+        let button = UIButton(frame: .zero)
+        button.layer.cornerRadius = 20
+        button.backgroundColor = Colors.primary
+        button.setTitleColor(Colors.white, for: .normal)
+        button.tintColor = Colors.white
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
+        return button
+    }()
+    
     private lazy var contentText = UILabel.label(with: Strings.empty, font: Fonts.body, textColor: Colors.label, textAlignment: .center)
     
     private lazy var stackView: UIStackView = {
@@ -62,6 +72,7 @@ private extension FeedListVC {
         
         bindObservables()
         addSubviews()
+        configureButton()
     }
     
     func bindObservables() {
@@ -84,10 +95,32 @@ private extension FeedListVC {
     
     func addSubviews() {
         view.addSubview(tableView)
+        view.addSubview(addButton)
         
         tableView.snp.makeConstraints {
             $0.edges.equalTo(view.safeAreaLayoutGuide.snp.edges)
         }
+        
+        addButton.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(16)
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottomMargin).inset(16)
+            $0.size.equalTo(40)
+        }
+    }
+    
+    func configureButton() {
+        addButton.setTitle(Strings.empty, for: .normal)
+        addButton.setImage(Images.add, for: .normal)
+        
+        addTargetActions()
+    }
+    
+    func addTargetActions() {
+        addButton.addTarget(self, action: #selector(didTapAddButton), for: .touchUpInside)
+    }
+    
+    @objc func didTapAddButton() {
+        viewModel.didTapAddButton()
     }
     
     func showNoDataView() {

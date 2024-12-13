@@ -25,9 +25,14 @@ protocol FeedListVMProtocol {
     
     func numberOfItems() -> Int
     func item(at index: Int) -> RSSFeed
+    func didTapAddButton()
 }
 
 final class FeedListVM {
+    
+    // MARK: - Coordinator actions
+    
+    var onAddButton: () -> Void = { }
     
     // MARK: - Public properties
     
@@ -89,5 +94,9 @@ extension FeedListVM: FeedListVMProtocol {
     
     func item(at index: Int) -> RSSFeed {
         rssFeeds[index]
+    }
+    
+    func didTapAddButton() {
+        onAddButton()
     }
 }

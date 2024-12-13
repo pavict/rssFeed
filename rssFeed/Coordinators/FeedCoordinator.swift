@@ -29,6 +29,11 @@ private extension FeedCoordinator {
         let feedListVM = FeedListVM()
         let feedListVC = FeedListVC.instantiate(viewModel: feedListVM)
         
+        feedListVM.onAddButton = {
+            print("did tap add")
+//            navigationController.present(, animated: true)
+        }
+        
         navigationController.pushViewController(feedListVC, animated: true)
     }
 }

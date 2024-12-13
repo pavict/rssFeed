@@ -21,7 +21,7 @@ struct Strings {
     struct Settings {
         static let title = "Settings"
         static let notifications = "Notifications"
-        static let linkExternal = "Open links in externally"
+        static let linkExternal = "Open links externally"
         static let darkMode = "Dark mode"
     }
 }
