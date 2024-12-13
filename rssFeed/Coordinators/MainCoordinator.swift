@@ -47,8 +47,8 @@ final class MainCoordinator: Coordinator {
     func setTabBarItems(feedNC: UINavigationController, favouritesNC: UINavigationController, settingsNC: UINavigationController) {
         feedNC.tabBarItem = UITabBarItem(title: Strings.FeedList.title, image: UIImage(systemName: "list.bullet"), tag: 0)
         
-        favouritesNC.tabBarItem = UITabBarItem(title: Strings.FeedList.title, image: UIImage(systemName: "star"), tag: 1)
+        favouritesNC.tabBarItem = UITabBarItem(title: Strings.Favourites.title, image: UIImage(systemName: "star"), tag: 1)
         
-        settingsNC.tabBarItem = UITabBarItem(title: Strings.FeedList.title, image: UIImage(systemName: "gearshape"), tag: 2)
+        settingsNC.tabBarItem = UITabBarItem(title: Strings.Settings.title, image: UIImage(systemName: "gearshape"), tag: 2)
     }
 }

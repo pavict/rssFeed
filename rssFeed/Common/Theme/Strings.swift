@@ -7,10 +7,15 @@
 
 struct Strings {
     static let empty = ""
+    static let close = "Close"
     
     struct FeedList {
         static let title = "Feed List"
         static let empty = "No RSS feed added yet."
+        
+        struct AddFeed {
+            static let title = "Add Feed"
+        }
     }
     
     struct Favourites {

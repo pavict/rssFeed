@@ -25,15 +25,26 @@ final class FeedCoordinator: Coordinator {
 }
 
 private extension FeedCoordinator {
-    private func setFeedListScreen() {
+    func setFeedListScreen() {
         let feedListVM = FeedListVM()
         let feedListVC = FeedListVC.instantiate(viewModel: feedListVM)
         
         feedListVM.onAddButton = {
-            print("did tap add")
-//            navigationController.present(, animated: true)
+            self.presentAddFeedScreen(in: self.navigationController)
         }
         
         navigationController.pushViewController(feedListVC, animated: true)
+    }
+    
+    func presentAddFeedScreen(in navigationController: UINavigationController) {
+        let addFeedVM = AddFeedVM()
+        let addFeedVC = AddFeedVC.instantiate(viewModel: addFeedVM)
+        let addFeedNC = UINavigationController(rootViewController: addFeedVC)
+        
+        addFeedVM.onDidTapClose = {
+            addFeedNC.dismiss(animated: true)
+        }
+        
+        navigationController.present(addFeedNC, animated: true)
     }
 }
