@@ -15,6 +15,7 @@ struct Strings {
         
         struct AddFeed {
             static let title = "Add Feed"
+            static let placeholder = "Enter RSS feed URL"
         }
     }
     

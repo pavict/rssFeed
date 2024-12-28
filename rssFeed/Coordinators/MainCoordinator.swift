@@ -10,8 +10,11 @@ import UIKit
 final class MainCoordinator: Coordinator {
     
     // MARK: - Private properties
+    
     private let window: UIWindow
     private lazy var mainTabBarVC = UITabBarController()
+    
+    private lazy var feedService: FeedServiceProtocol = FeedService(initialFeeds: nil)
     
     // MARK: - Class lifecycle
     
@@ -25,7 +28,7 @@ final class MainCoordinator: Coordinator {
     
     func setupTabBarController() {
         let feedNC = UINavigationController()
-        let feedCoordinator = FeedCoordinator(navigationController: feedNC)
+        let feedCoordinator = FeedCoordinator(in: feedNC, feedService: feedService)
         push(childCoordinator: feedCoordinator)
         
         let favouritesNC = UINavigationController()

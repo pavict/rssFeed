@@ -12,11 +12,13 @@ final class FeedCoordinator: Coordinator {
     // MARK: - Private properties
     
     private let navigationController: UINavigationController
+    private let feedService: FeedServiceProtocol
     
     // MARK: - Class lifecycle
     
-    init(navigationController: UINavigationController) {
+    init(in navigationController: UINavigationController, feedService: FeedServiceProtocol) {
         self.navigationController = navigationController
+        self.feedService = feedService
     }
     
     override func start() {
@@ -26,7 +28,7 @@ final class FeedCoordinator: Coordinator {
 
 private extension FeedCoordinator {
     func setFeedListScreen() {
-        let feedListVM = FeedListVM()
+        let feedListVM = FeedListVM(feedService: feedService)
         let feedListVC = FeedListVC.instantiate(viewModel: feedListVM)
         
         feedListVM.onAddButton = {
@@ -37,7 +39,7 @@ private extension FeedCoordinator {
     }
     
     func presentAddFeedScreen(in navigationController: UINavigationController) {
-        let addFeedVM = AddFeedVM()
+        let addFeedVM = AddFeedVM(feedService: feedService)
         let addFeedVC = AddFeedVC.instantiate(viewModel: addFeedVM)
         let addFeedNC = UINavigationController(rootViewController: addFeedVC)
         

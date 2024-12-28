@@ -10,12 +10,11 @@ import FeedKit
 import RxSwift
 import RxRelay
 
-// MARK: - Enums
+// MARK: - State enum
 enum State {
     case loading
     case loaded
     case empty
-    case customData
 }
 
 // MARK: - Protocol
@@ -43,41 +42,33 @@ final class FeedListVM {
     // MARK: - Private properties
     
     private lazy var _state = BehaviorRelay<State>(value: .loading)
+    private let disposeBag = DisposeBag()
+    private let feedService: FeedServiceProtocol
     private var rssFeeds: [RSSFeed] = []
     
     // MARK: Class lifecycle
     
-    init() {
-        getFeed()
-        if rssFeeds.isEmpty {
-            _state.accept(.empty)
-        }
+    init(feedService: FeedServiceProtocol) {
+        self.feedService = feedService
+        
+        bindService()
     }
 }
 
 // MARK: - Private extension
 private extension FeedListVM {
     
-    func getFeed() {
-        _state.accept(.loading)
-        if let url = URL(string: "https://www.cbc.ca/webfeed/rss/rss-world") {
-            let parser = FeedParser(URL: url)
-            parser.parseAsync { result in
-                switch result {
-                case .success(let feed):
-                    if let rssFeed = feed.rssFeed {
-//                        self.rssFeeds.append(rssFeed)
-                        for item in rssFeed.items ?? [] {
-                            print("Item Title: \(item.title ?? "")")
-                        }
-                    }
-                    self._state.accept(.empty)
-                case .failure(let error):
-                    self._state.accept(.empty)
-                    print("Error: \(error)")
+    func bindService() {
+        feedService
+            .feedList
+            .subscribe(onNext: { [weak self] feedList in
+                if let feeds = feedList {
+                    self?.rssFeeds = feeds
+                    self?._state.accept(.loaded)
+                } else {
+                    self?._state.accept(.empty)
                 }
-            }
-        }
+        }).disposed(by: disposeBag)
     }
 }
 

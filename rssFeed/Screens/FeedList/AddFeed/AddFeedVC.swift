@@ -15,17 +15,16 @@ final class AddFeedVC: UIViewController {
     
     private lazy var urlTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "Enter RSS feed URL"
+        textField.placeholder = Strings.FeedList.AddFeed.placeholder
         textField.borderStyle = .roundedRect
         textField.layer.cornerRadius = 10
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.keyboardType = .URL
         textField.autocapitalizationType = .none
         textField.returnKeyType = .search
+        textField.delegate = self
         return textField
     }()
-    
-    
     
     // MARK: - Class lifecycle
     
@@ -57,6 +56,15 @@ private extension AddFeedVC {
     
     @objc func close() {
         viewModel.didTapClose()
+    }
+}
+
+// MARK: - Textfield Delegate
+extension AddFeedVC: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        viewModel.didTapSearch(for: textField.text ?? Strings.empty)
+        return true
     }
 }
 

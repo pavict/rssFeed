@@ -55,7 +55,7 @@ final class FavouritesVC: UIViewController {
 
 private extension FavouritesVC {
     func configureSelf() {
-        title = "Favourites"
+        title = viewModel.title
         self.view.backgroundColor = Colors.tertiary
         
         bindObservables()
@@ -73,7 +73,7 @@ private extension FavouritesVC {
                     break
                 case .empty:
                     self.showNoDataView()
-                case .loaded, .customData:
+                case .loaded:
                     Spinner.stop()
                     self.tableView.reloadData()
                 }

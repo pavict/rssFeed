@@ -86,8 +86,9 @@ private extension FeedListVC {
                     break
                 case .empty:
                     self.showNoDataView()
-                case .loaded, .customData:
+                case .loaded:
                     Spinner.stop()
+                    self.showDataView()
                     self.tableView.reloadData()
                 }
             }).disposed(by: disposeBag)
@@ -140,6 +141,11 @@ private extension FeedListVC {
         
         animationView.play()
     }
+    
+    func showDataView() {
+        tableView.isHidden = false
+        stackView.removeFromSuperview()
+    }
 }
 
 // MARK: - TableView DataSource
@@ -160,6 +166,12 @@ extension FeedListVC: UITableViewDataSource {
 extension FeedListVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
     }
 }
 
