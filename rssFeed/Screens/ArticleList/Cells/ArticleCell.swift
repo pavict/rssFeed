@@ -1,21 +1,18 @@
 //
-//  FeedCell.swift
+//  ArticleCell.swift
 //  rssFeed
 //
-//  Created by Toni Pavic on 07.12.2024..
+//  Created by Toni Pavic on 28.12.2024..
 //
 
-import UIKit
-import SnapKit
 import FeedKit
-import SDWebImage
-import Lottie
+import UIKit
 
-final class FeedCell: UITableViewCell, ReusableView {
+final class ArticleCell: UITableViewCell, ReusableView {
     
     // MARK: - Private properties
     
-    private lazy var feedNameLabel = UILabel.label(with: Strings.empty, font: Fonts.title2, textColor: Colors.primary, textAlignment: .natural)
+    private lazy var nameLabel = UILabel.label(with: Strings.empty, font: Fonts.title2, textColor: Colors.primary, textAlignment: .natural)
     
     private lazy var descriptionLabel = UILabel.label(with: Strings.empty, font: Fonts.body, textColor: Colors.label, textAlignment: .left)
     
@@ -29,7 +26,7 @@ final class FeedCell: UITableViewCell, ReusableView {
     }()
     
     private lazy var textStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [feedNameLabel, descriptionLabel])
+        let stack = UIStackView(arrangedSubviews: [nameLabel, descriptionLabel])
         stack.axis = .vertical
         stack.alignment = .top
         stack.distribution = .fill
@@ -39,7 +36,7 @@ final class FeedCell: UITableViewCell, ReusableView {
     
     private lazy var contentStackView: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [feedImageView, textStackView])
-        stack.axis = .horizontal
+        stack.axis = .vertical
         stack.alignment = .top
         stack.distribution = .fill
         stack.spacing = 20
@@ -59,7 +56,7 @@ final class FeedCell: UITableViewCell, ReusableView {
 }
 
 // MARK: - Private extension
-private extension FeedCell {
+private extension ArticleCell {
     func addSubviews() {
         contentView.addSubview(contentStackView)
         
@@ -75,11 +72,9 @@ private extension FeedCell {
     }
 }
 
-// MARK: - Public extension
-extension FeedCell {
-    func configure(with feed: RSSFeed) {
-        feedNameLabel.text = feed.title
-        descriptionLabel.text = feed.description
-        feedImageView.sd_setImage(with: URL(string: feed.image?.url ?? Strings.empty), placeholderImage: .rssFeedIcon)
+extension ArticleCell {
+    func configure(with article: RSSFeedItem) {
+        nameLabel.text = article.title
+        descriptionLabel.text = article.description
     }
 }

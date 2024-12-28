@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FeedKit
 
 final class FeedCoordinator: Coordinator {
     
@@ -35,6 +36,10 @@ private extension FeedCoordinator {
             self.presentAddFeedScreen(in: self.navigationController)
         }
         
+        feedListVM.onFeedSelected = { feed in
+            self.pushArticleListScreen(for: feed)
+        }
+        
         navigationController.pushViewController(feedListVC, animated: true)
     }
     
@@ -48,5 +53,12 @@ private extension FeedCoordinator {
         }
         
         navigationController.present(addFeedNC, animated: true)
+    }
+    
+    func pushArticleListScreen(for feed: RSSFeed) {
+        let articleListVM = ArticleListVM(feed: feed.title ?? Strings.empty, items: feed.items ?? [])
+        let articleListVC = ArticleListVC.instantiate(viewModel: articleListVM)
+        
+        navigationController.pushViewController(articleListVC, animated: true)
     }
 }
