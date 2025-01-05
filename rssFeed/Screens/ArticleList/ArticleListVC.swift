@@ -59,7 +59,7 @@ extension ArticleListVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(for: indexPath, type: ArticleCell.self)
-        let item = viewModel.item(at: indexPath.row)
+        let item = viewModel.item(at: indexPath.section)
         cell.configure(with: item)
         return cell
     }

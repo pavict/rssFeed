@@ -24,6 +24,7 @@ protocol FeedListVMProtocol {
     
     func numberOfItems() -> Int
     func item(at index: Int) -> RSSFeed
+    func deleteItem(at index: Int)
     func didTapAddButton()
     func didTapFeed(at index: Int)
 }
@@ -65,8 +66,12 @@ private extension FeedListVM {
             .feedList
             .subscribe(onNext: { [weak self] feedList in
                 if let feeds = feedList {
-                    self?.rssFeeds = feeds
-                    self?._state.accept(.loaded)
+                    if feeds.isEmpty {
+                        self?._state.accept(.empty)
+                    } else {
+                        self?.rssFeeds = feeds
+                        self?._state.accept(.loaded)
+                    }
                 } else {
                     self?._state.accept(.empty)
                 }
@@ -87,6 +92,10 @@ extension FeedListVM: FeedListVMProtocol {
     
     func item(at index: Int) -> RSSFeed {
         rssFeeds[index]
+    }
+    
+    func deleteItem(at index: Int) {
+        feedService.deleteFeed(feed: rssFeeds[index])
     }
     
     func didTapAddButton() {

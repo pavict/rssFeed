@@ -10,6 +10,7 @@ import UIKit
 struct Animations {
     static let favouritesEmpty = "empty"
     static let search = "searchRss"
+    static let added = "added"
 }
 
 struct Images {

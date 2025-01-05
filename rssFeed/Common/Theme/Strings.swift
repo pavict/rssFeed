@@ -7,6 +7,7 @@
 
 struct Strings {
     static let empty = ""
+    static let ok = "OK"
     static let close = "Close"
     
     struct FeedList {
@@ -29,5 +30,11 @@ struct Strings {
         static let notifications = "Notifications"
         static let linkExternal = "Open links externally"
         static let darkMode = "Dark mode"
+    }
+    
+    struct Error {
+        static let alertTitle = "Error"
+        static let generalError = "Something went wrong."
+        static let invalidUrl = "Invalid URL."
     }
 }

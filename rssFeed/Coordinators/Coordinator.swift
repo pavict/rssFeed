@@ -37,3 +37,30 @@ class Coordinator: NSObject {
         shouldEnd()
     }
 }
+
+// MARK: - Alert extension
+extension Coordinator {
+    
+    func presentAlert(with message: String, in navigationController: UINavigationController, okActionCompletion: (() -> Void)? = nil) {
+        print("PRESENT ALERT")
+        let alert = UIAlertController(
+            title: Strings.Error.alertTitle,
+            message: message,
+            preferredStyle: .alert
+        )
+        
+        alert.view.tintColor = Colors.primary
+        
+        alert.addAction(
+            UIAlertAction(
+                title: Strings.ok,
+                style: .default,
+                handler: { _ in
+                    okActionCompletion?()
+                }
+            )
+        )
+        
+        navigationController.present(alert, animated: true, completion: nil)
+    }
+}

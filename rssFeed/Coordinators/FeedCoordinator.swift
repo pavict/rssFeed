@@ -52,6 +52,10 @@ private extension FeedCoordinator {
             addFeedNC.dismiss(animated: true)
         }
         
+        addFeedVM.onNeedsAlert = { alert in
+            self.presentAlert(with: alert, in: addFeedNC)
+        }
+        
         navigationController.present(addFeedNC, animated: true)
     }
     

@@ -47,7 +47,7 @@ final class FeedListVC: UIViewController {
     }()
     
     private lazy var tableView: UITableView = {
-        let tv = UITableView(frame: .zero, style: .insetGrouped)
+        let tv = UITableView(frame: .zero, style: .grouped)
         tv.register(FeedCell.self)
         tv.dataSource = self
         tv.delegate = self
@@ -80,6 +80,7 @@ private extension FeedListVC {
             .state
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [unowned self] state in
+                print("STATE", state)
                 switch state {
                 case .loading:
                     Spinner.start()
@@ -171,7 +172,7 @@ extension FeedListVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            viewModel.deleteItem(at: indexPath.row)
         }
     }
 }

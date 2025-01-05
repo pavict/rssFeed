@@ -11,6 +11,7 @@ import RxRelay
 import FeedKit
 
 protocol AddFeedVMProtocol {
+    var state: Observable<State> { get }
     var title: String { get }
     
     func didTapClose()
@@ -23,6 +24,7 @@ final class AddFeedVM {
     
     var onDidTapClose: () -> Void = { }
     var onDidTapSearch: () -> Void = { }
+    var onNeedsAlert: (String) -> Void = { _ in }
     
     // MARK: - Public properties
     
@@ -32,7 +34,7 @@ final class AddFeedVM {
 
     // MARK: - Private properties
     
-    private lazy var _state = BehaviorRelay<State>(value: .loading)
+    private lazy var _state = BehaviorRelay<State>(value: .empty)
     private let feedService: FeedServiceProtocol
     
     init(feedService: FeedServiceProtocol) {
@@ -43,22 +45,24 @@ final class AddFeedVM {
         _state.accept(.loading)
         if let url = URL(string: url) {
             let parser = FeedParser(URL: url)
-            parser.parseAsync { result in
+            parser.parseAsync(queue: DispatchQueue.global(qos: .userInitiated)) { result in
                 switch result {
                 case .success(let feed):
                     if let rssFeed = feed.rssFeed {
                         self.feedService.addFeed(feed: rssFeed)
-                        
-                        for item in rssFeed.items ?? [] {
-                            print("Item Title: \(item.title ?? "")")
-                        }
+                        self._state.accept(.loaded)
                     }
-                    self._state.accept(.loaded)
                 case .failure(let error):
-                    self._state.accept(.empty)
-                    print("Error: \(error)")
+                    DispatchQueue.main.async {
+                        print("Error getting feed: \(error)")
+                        self._state.accept(.empty)
+                        self.onNeedsAlert(error.localizedDescription)
+                    }
                 }
             }
+        } else {
+            self._state.accept(.empty)
+            self.onNeedsAlert(Strings.Error.invalidUrl)
         }
     }
 }

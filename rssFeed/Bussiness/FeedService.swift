@@ -13,6 +13,7 @@ protocol FeedServiceProtocol {
     var feedList: Observable<[RSSFeed]?> { get }
     
     func addFeed(feed: RSSFeed)
+    func deleteFeed(feed: RSSFeed)
 }
 
 class FeedService {
@@ -39,6 +40,12 @@ extension FeedService: FeedServiceProtocol {
     func addFeed(feed: RSSFeed) {
         var currentFeeds = _feedList.value ?? []
         currentFeeds.append(feed)
+        _feedList.accept(currentFeeds)
+    }
+    
+    func deleteFeed(feed: RSSFeed) {
+        var currentFeeds = _feedList.value ?? []
+        currentFeeds.removeAll(where: { $0 == feed })
         _feedList.accept(currentFeeds)
     }
 }
