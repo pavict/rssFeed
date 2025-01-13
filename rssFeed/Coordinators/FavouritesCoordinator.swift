@@ -12,11 +12,13 @@ final class FavouritesCoordinator: Coordinator {
     // MARK: - Private properties
     
     private let navigationController: UINavigationController
+    private let feedService: FeedServiceProtocol
     
     // MARK: - Class lifecycle
     
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController, feedService: FeedServiceProtocol) {
         self.navigationController = navigationController
+        self.feedService = feedService
     }
     
     override func start() {
@@ -26,7 +28,7 @@ final class FavouritesCoordinator: Coordinator {
 
 private extension FavouritesCoordinator {
     private func setFavouritesScreen() {
-        let favouritesVM = FavouritesVM()
+        let favouritesVM = FavouritesVM(feedService: feedService)
         let favouritesVC = FavouritesVC.instantiate(viewModel: favouritesVM)
         
         navigationController.pushViewController(favouritesVC, animated: true)

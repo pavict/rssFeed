@@ -16,9 +16,14 @@ protocol ArticleListVMProtocol {
     
     func numberOfItems() -> Int
     func item(at index: Int) -> RSSFeedItem
+    func didSelectItem(at index: Int)
 }
 
 final class ArticleListVM {
+    
+    // MARK: - Coordinator actions
+    
+    var onDidSelectItem: ((String) -> Void)?
     
     // MARK: - Public properties
     
@@ -54,5 +59,9 @@ extension ArticleListVM: ArticleListVMProtocol {
     
     func item(at index: Int) -> RSSFeedItem {
         items[index]
+    }
+    
+    func didSelectItem(at index: Int) {
+        onDidSelectItem?(items[index].link ?? Strings.empty)
     }
 }

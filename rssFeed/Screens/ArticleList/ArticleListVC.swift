@@ -68,6 +68,7 @@ extension ArticleListVC: UITableViewDataSource {
 // MARK: - TableView Delegate
 extension ArticleListVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.didSelectItem(at: indexPath.section)
         tableView.deselectRow(at: indexPath, animated: false)
     }
 }

@@ -65,6 +65,14 @@ extension SettingsVC: UITableViewDataSource {
         
         cell.isUserInteractionEnabled = true
         
+        cell.linkExternalSwitch
+            .rx
+            .controlEvent(.valueChanged)
+            .withLatestFrom(cell.linkExternalSwitch.rx.value)
+            .subscribe(onNext: { bool in
+                UserDefaults.standard.set(bool, forKey: "isLinkExternalOn")
+            }).disposed(by: disposeBag)
+        
         cell.darkModeSwitch
             .rx
             .controlEvent(.valueChanged)
@@ -77,8 +85,6 @@ extension SettingsVC: UITableViewDataSource {
                 }
         }).disposed(by: disposeBag)
         
-//        let item = viewModel.item(at: indexPath.row)
-//        cell.configure(with: item)
         return cell
     }
 }

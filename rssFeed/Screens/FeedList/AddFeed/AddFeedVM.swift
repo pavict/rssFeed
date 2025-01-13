@@ -49,7 +49,8 @@ final class AddFeedVM {
                 switch result {
                 case .success(let feed):
                     if let rssFeed = feed.rssFeed {
-                        self.feedService.addFeed(feed: rssFeed)
+                        let feed = CustomRSSFeed(feed: rssFeed, favourite: false)
+                        self.feedService.addFeed(feed: feed)
                         self._state.accept(.loaded)
                     }
                 case .failure(let error):

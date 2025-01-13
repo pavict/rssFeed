@@ -80,7 +80,6 @@ private extension FeedListVC {
             .state
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [unowned self] state in
-                print("STATE", state)
                 switch state {
                 case .loading:
                     Spinner.start()
@@ -158,7 +157,10 @@ extension FeedListVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(for: indexPath, type: FeedCell.self)
         let item = viewModel.item(at: indexPath.row)
-        cell.configure(with: item)
+        cell.configure(with: item, shouldShowFavouriteButton: true)
+        cell.onFavouriteSelected = { [weak self] in
+            self?.viewModel.toggleFavourite(at: indexPath.row)
+        }
         return cell
     }
 }

@@ -59,10 +59,26 @@ private extension FeedCoordinator {
         navigationController.present(addFeedNC, animated: true)
     }
     
-    func pushArticleListScreen(for feed: RSSFeed) {
-        let articleListVM = ArticleListVM(feed: feed.title ?? Strings.empty, items: feed.items ?? [])
+    func pushArticleListScreen(for feed: CustomRSSFeed) {
+        let articleListVM = ArticleListVM(feed: feed.feed.title ?? Strings.empty, items: feed.feed.items ?? [])
         let articleListVC = ArticleListVC.instantiate(viewModel: articleListVM)
         
+        articleListVM.onDidSelectItem = { item in
+            self.openLink(url: item)
+        }
+        
         navigationController.pushViewController(articleListVC, animated: true)
+    }
+    
+    func openLink(url: String) {
+        if let shouldGoExternal = UserDefaults.standard.value(forKey: "isLinkExternalOn") as? Bool {
+            if !shouldGoExternal {
+                if let url = URL(string: url) {
+                    UIApplication.shared.open(url)
+                }
+            } else {
+                print("Open in webview")
+            }
+        }
     }
 }

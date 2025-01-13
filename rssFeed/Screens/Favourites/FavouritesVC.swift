@@ -36,7 +36,7 @@ final class FavouritesVC: UIViewController {
     }()
     
     private lazy var tableView: UITableView = {
-        let tv = UITableView(frame: .zero, style: .insetGrouped)
+        let tv = UITableView(frame: .zero, style: .plain)
         tv.register(FeedCell.self)
         tv.dataSource = self
         tv.delegate = self
@@ -115,9 +115,8 @@ extension FavouritesVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(for: indexPath, type: FeedCell.self)
-        
-//        let item = viewModel.item(at: indexPath.row)
-//        cell.configure(with: item)
+        let item = viewModel.item(at: indexPath.row)
+        cell.configure(with: item, shouldShowFavouriteButton: false)
         return cell
     }
 }

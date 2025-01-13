@@ -23,10 +23,11 @@ protocol FeedListVMProtocol {
     var title: String { get }
     
     func numberOfItems() -> Int
-    func item(at index: Int) -> RSSFeed
+    func item(at index: Int) -> CustomRSSFeed
     func deleteItem(at index: Int)
     func didTapAddButton()
     func didTapFeed(at index: Int)
+    func toggleFavourite(at index: Int)
 }
 
 final class FeedListVM {
@@ -34,7 +35,7 @@ final class FeedListVM {
     // MARK: - Coordinator actions
     
     var onAddButton: () -> Void = { }
-    var onFeedSelected: (RSSFeed) -> Void = { _ in }
+    var onFeedSelected: (CustomRSSFeed) -> Void = { _ in }
     
     // MARK: - Public properties
     
@@ -47,7 +48,7 @@ final class FeedListVM {
     private lazy var _state = BehaviorRelay<State>(value: .loading)
     private let disposeBag = DisposeBag()
     private let feedService: FeedServiceProtocol
-    private var rssFeeds: [RSSFeed] = []
+    private var rssFeeds: [CustomRSSFeed] = []
     
     // MARK: Class lifecycle
     
@@ -90,12 +91,12 @@ extension FeedListVM: FeedListVMProtocol {
         rssFeeds.count
     }
     
-    func item(at index: Int) -> RSSFeed {
+    func item(at index: Int) -> CustomRSSFeed {
         rssFeeds[index]
     }
     
     func deleteItem(at index: Int) {
-        feedService.deleteFeed(feed: rssFeeds[index])
+        feedService.deleteFeed(feed: rssFeeds[index].feed)
     }
     
     func didTapAddButton() {
@@ -104,5 +105,9 @@ extension FeedListVM: FeedListVMProtocol {
     
     func didTapFeed(at index: Int) {
         onFeedSelected(rssFeeds[index])
+    }
+    
+    func toggleFavourite(at index: Int) {
+        feedService.setFavourite(at: index)
     }
 }

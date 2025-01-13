@@ -13,9 +13,13 @@ import Lottie
 
 final class FeedCell: UITableViewCell, ReusableView {
     
+    // MARK: - Public properties
+    
+    var onFavouriteSelected: () -> Void = { }
+    
     // MARK: - Private properties
     
-    private lazy var feedNameLabel = UILabel.label(with: Strings.empty, font: Fonts.title2, textColor: Colors.primary, textAlignment: .natural)
+    private lazy var feedNameLabel = UILabel.label(with: Strings.empty, font: Fonts.title2, textColor: Colors.primary, textAlignment: .natural, lineBreakMode: .byTruncatingTail)
     
     private lazy var descriptionLabel = UILabel.label(with: Strings.empty, font: Fonts.body, textColor: Colors.label, textAlignment: .left)
     
@@ -37,10 +41,20 @@ final class FeedCell: UITableViewCell, ReusableView {
         return stack
     }()
     
+    private lazy var favouriteButton: UIButton = {
+        let btn = UIButton()
+        btn.setImage(UIImage(systemName: "star"), for: .normal)
+        btn.tintColor = Colors.primary
+        btn.contentMode = .scaleAspectFit
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.addTarget(self, action: #selector(favouriteButtonTapped), for: .touchUpInside)
+        return btn
+    }()
+    
     private lazy var contentStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [feedImageView, textStackView])
+        let stack = UIStackView(arrangedSubviews: [feedImageView, textStackView, favouriteButton])
         stack.axis = .horizontal
-        stack.alignment = .top
+        stack.alignment = .fill
         stack.distribution = .fill
         stack.spacing = 20
         return stack
@@ -73,13 +87,22 @@ private extension FeedCell {
             $0.size.height.equalTo(imageWidth)
         }
     }
+    
+    @objc func favouriteButtonTapped() {
+        onFavouriteSelected()
+    }
 }
 
 // MARK: - Public extension
 extension FeedCell {
-    func configure(with feed: RSSFeed) {
-        feedNameLabel.text = feed.title
-        descriptionLabel.text = feed.description
-        feedImageView.sd_setImage(with: URL(string: feed.image?.url ?? Strings.empty), placeholderImage: .rssFeedIcon)
+    func configure(with feed: CustomRSSFeed, shouldShowFavouriteButton: Bool) {
+        feedNameLabel.text = feed.feed.title
+        descriptionLabel.text = feed.feed.description
+        feedImageView.sd_setImage(with: URL(string: feed.feed.image?.url ?? Strings.empty), placeholderImage: .rssFeedIcon)
+        if !shouldShowFavouriteButton {
+            favouriteButton.isHidden = true
+        } else {
+            favouriteButton.isHidden = false
+        }
     }
 }

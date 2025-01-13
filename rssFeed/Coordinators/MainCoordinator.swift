@@ -32,7 +32,7 @@ final class MainCoordinator: Coordinator {
         push(childCoordinator: feedCoordinator)
         
         let favouritesNC = UINavigationController()
-        let favouritesCoordinator = FavouritesCoordinator(navigationController: favouritesNC)
+        let favouritesCoordinator = FavouritesCoordinator(navigationController: favouritesNC, feedService: feedService)
         push(childCoordinator: favouritesCoordinator)
         
         let settingsNC = UINavigationController()

@@ -27,6 +27,7 @@ final class AddFeedVC: UIViewController {
         textField.autocapitalizationType = .none
         textField.returnKeyType = .search
         textField.delegate = self
+        textField.addClearButton()
         return textField
     }()
     
