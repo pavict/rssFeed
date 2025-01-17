@@ -31,6 +31,7 @@ private extension FavouritesCoordinator {
         let favouritesVM = FavouritesVM(feedService: feedService)
         let favouritesVC = FavouritesVC.instantiate(viewModel: favouritesVM)
         
+        navigationController.navigationBar.prefersLargeTitles = true
         navigationController.pushViewController(favouritesVC, animated: true)
     }
 }

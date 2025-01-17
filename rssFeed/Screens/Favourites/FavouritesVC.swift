@@ -76,6 +76,7 @@ private extension FavouritesVC {
                 case .loaded:
                     Spinner.stop()
                     self.tableView.reloadData()
+                    self.showDataView()
                 }
             }).disposed(by: disposeBag)
     }
@@ -86,6 +87,11 @@ private extension FavouritesVC {
         tableView.snp.makeConstraints {
             $0.edges.equalTo(view.safeAreaLayoutGuide.snp.edges)
         }
+    }
+    
+    func showDataView() {
+        tableView.isHidden = false
+        stackView.removeFromSuperview()
     }
     
     func showNoDataView() {

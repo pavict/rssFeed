@@ -10,6 +10,7 @@ import SnapKit
 import FeedKit
 import SDWebImage
 import Lottie
+import RxSwift
 
 final class FeedCell: UITableViewCell, ReusableView {
     
@@ -18,6 +19,8 @@ final class FeedCell: UITableViewCell, ReusableView {
     var onFavouriteSelected: () -> Void = { }
     
     // MARK: - Private properties
+    
+    private var disposeBag = DisposeBag()
     
     private lazy var feedNameLabel = UILabel.label(with: Strings.empty, font: Fonts.title2, textColor: Colors.primary, textAlignment: .natural, lineBreakMode: .byTruncatingTail)
     
@@ -88,6 +91,16 @@ private extension FeedCell {
         }
     }
     
+    func bindObservers(for feed: CustomRSSFeed) {
+        feed.isFavourite
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] isFavourite in
+                let favouriteIcon = isFavourite ? "star.fill" : "star"
+                self?.favouriteButton.setImage(UIImage(systemName: favouriteIcon), for: .normal)
+            })
+            .disposed(by: disposeBag)
+    }
+    
     @objc func favouriteButtonTapped() {
         onFavouriteSelected()
     }
@@ -99,10 +112,8 @@ extension FeedCell {
         feedNameLabel.text = feed.feed.title
         descriptionLabel.text = feed.feed.description
         feedImageView.sd_setImage(with: URL(string: feed.feed.image?.url ?? Strings.empty), placeholderImage: .rssFeedIcon)
-        if !shouldShowFavouriteButton {
-            favouriteButton.isHidden = true
-        } else {
-            favouriteButton.isHidden = false
-        }
+        favouriteButton.isHidden = !shouldShowFavouriteButton
+        
+        bindObservers(for: feed)
     }
 }

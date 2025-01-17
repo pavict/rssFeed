@@ -27,7 +27,7 @@ protocol FeedListVMProtocol {
     func deleteItem(at index: Int)
     func didTapAddButton()
     func didTapFeed(at index: Int)
-    func toggleFavourite(at index: Int)
+    func toggleFavourite(feed: CustomRSSFeed)
 }
 
 final class FeedListVM {
@@ -107,7 +107,7 @@ extension FeedListVM: FeedListVMProtocol {
         onFeedSelected(rssFeeds[index])
     }
     
-    func toggleFavourite(at index: Int) {
-        feedService.setFavourite(at: index)
+    func toggleFavourite(feed: CustomRSSFeed) {
+        feedService.toggleFavourite(feed: feed)
     }
 }

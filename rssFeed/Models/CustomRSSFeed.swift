@@ -6,13 +6,14 @@
 //
 
 import FeedKit
+import RxRelay
 
 public struct CustomRSSFeed {
     public let feed: RSSFeed
-    public var isFavourite: Bool
+    public var isFavourite: BehaviorRelay<Bool>
     
-    init(feed: RSSFeed, favourite: Bool) {
+    init(feed: RSSFeed, isFavourite: Bool = false) {
         self.feed = feed
-        self.isFavourite = favourite
+        self.isFavourite = BehaviorRelay(value: isFavourite)
     }
 }

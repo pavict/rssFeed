@@ -40,6 +40,7 @@ private extension FeedCoordinator {
             self.pushArticleListScreen(for: feed)
         }
         
+        navigationController.navigationBar.prefersLargeTitles = true
         navigationController.pushViewController(feedListVC, animated: true)
     }
     

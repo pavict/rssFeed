@@ -14,12 +14,14 @@ protocol FeedServiceProtocol {
     
     func addFeed(feed: CustomRSSFeed)
     func deleteFeed(feed: RSSFeed)
-    func setFavourite(at index: Int)
+    func toggleFavourite(feed: CustomRSSFeed)
 }
 
 class FeedService {
     
     // MARK: - Public properties
+    
+    static let shared = FeedService()
     
     lazy var feedList: Observable<[CustomRSSFeed]?> = {
         return _feedList.asObservable()
@@ -31,7 +33,7 @@ class FeedService {
     
     // MARK: - Class Lifecycle
         
-    init(initialFeeds: [CustomRSSFeed]?) {
+    init(initialFeeds: [CustomRSSFeed]? = nil) {
         _feedList.accept(initialFeeds)
     }
 }
@@ -50,9 +52,8 @@ extension FeedService: FeedServiceProtocol {
         _feedList.accept(currentFeeds)
     }
     
-    func setFavourite(at index: Int) {
-        var currentFeeds = _feedList.value ?? []
-        currentFeeds[index].isFavourite.toggle()
-        _feedList.accept(currentFeeds)
+    func toggleFavourite(feed: CustomRSSFeed) {
+        feed.isFavourite.accept(!feed.isFavourite.value)
+        _feedList.accept(_feedList.value)
     }
 }

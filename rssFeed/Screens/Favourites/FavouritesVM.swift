@@ -44,16 +44,15 @@ private extension FavouritesVM {
     func bindService() {
         feedService
             .feedList
-            .subscribe(onNext: { [weak self] feedList in
-                if let feeds = feedList {
-                    if feeds.isEmpty {
-                        self?._state.accept(.empty)
-                    } else {
-                        self?.rssFeeds = feeds
-                        self?._state.accept(.loaded)
-                    }
-                } else {
+            .map { feedList in
+                feedList?.filter { $0.isFavourite.value } ?? []
+            }
+            .subscribe(onNext: { [weak self] favouritesFeed in
+                if favouritesFeed.isEmpty {
                     self?._state.accept(.empty)
+                } else {
+                    self?.rssFeeds = favouritesFeed
+                    self?._state.accept(.loaded)
                 }
         }).disposed(by: disposeBag)
     }

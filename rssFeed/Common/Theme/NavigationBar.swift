@@ -15,7 +15,6 @@ final class Theme {
         navBarAppearance.largeTitleTextAttributes = [.foregroundColor: Colors.primary]
         navBarAppearance.backgroundColor =  Colors.tertiary
         UINavigationBar.appearance().standardAppearance = navBarAppearance
-//        UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
         UINavigationBar.appearance().tintColor = Colors.primary
     }
 }

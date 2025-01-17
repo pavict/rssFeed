@@ -49,7 +49,7 @@ final class AddFeedVM {
                 switch result {
                 case .success(let feed):
                     if let rssFeed = feed.rssFeed {
-                        let feed = CustomRSSFeed(feed: rssFeed, favourite: false)
+                        let feed = CustomRSSFeed(feed: rssFeed, isFavourite: false)
                         self.feedService.addFeed(feed: feed)
                         self._state.accept(.loaded)
                     }

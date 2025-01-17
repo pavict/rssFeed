@@ -67,6 +67,7 @@ final class FeedListVC: UIViewController {
 // MARK: - Private extension
 private extension FeedListVC {
     func configureSelf() {
+//        navigationItem.largeTitleDisplayMode = .always
         title = viewModel.title
         self.view.backgroundColor = Colors.tertiary
         
@@ -159,7 +160,7 @@ extension FeedListVC: UITableViewDataSource {
         let item = viewModel.item(at: indexPath.row)
         cell.configure(with: item, shouldShowFavouriteButton: true)
         cell.onFavouriteSelected = { [weak self] in
-            self?.viewModel.toggleFavourite(at: indexPath.row)
+            self?.viewModel.toggleFavourite(feed: item)
         }
         return cell
     }

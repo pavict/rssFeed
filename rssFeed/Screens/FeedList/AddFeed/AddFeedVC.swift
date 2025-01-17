@@ -102,15 +102,25 @@ private extension AddFeedVC {
         
         animationView.isHidden = false
         
+        let feedbackTriggerPoint: CGFloat = 0.5 // Trigger at 50% progress
+        var feedbackTriggered = false // Ensure feedback is triggered only once
+        
+//        animationView.realtimeAnimationProgress { [weak self] progress in
+//            if progress >= feedbackTriggerPoint && !feedbackTriggered {
+//                feedbackTriggered = true
+//                let feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
+//                feedbackGenerator.prepare()
+//                feedbackGenerator.impactOccurred()
+//            }
+//        }
+
+        // Play the animation and handle completion
         animationView.play { [weak self] finished in
             if finished {
-                
-                let fbGen = UIImpactFeedbackGenerator(style: .heavy)
-                fbGen.impactOccurred()
                 self?.dismiss(animated: true, completion: nil)
             }
         }
-    }
+}
 }
 
 // MARK: - Textfield Delegate

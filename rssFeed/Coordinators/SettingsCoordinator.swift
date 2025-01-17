@@ -29,6 +29,7 @@ private extension SettingsCoordinator {
         let settingsVM = SettingsVM()
         let settingsVC = SettingsVC.instantiate(viewModel: settingsVM)
         
+        navigationController.navigationBar.prefersLargeTitles = true
         navigationController.pushViewController(settingsVC, animated: true)
     }
 }
