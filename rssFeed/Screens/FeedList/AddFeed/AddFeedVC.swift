@@ -65,7 +65,7 @@ private extension AddFeedVC {
         view.addSubview(animationView)
         
         urlTextField.snp.makeConstraints {
-            $0.leading.trailing.equalTo(view.safeAreaInsets).inset(5)
+            $0.leading.trailing.equalTo(view.safeAreaInsets).inset(10)
             $0.top.equalTo(view.safeAreaInsets.top).offset(55)
             $0.height.equalTo(50)
         }

@@ -9,7 +9,7 @@ import UIKit
 
 extension UITextField {
     func addClearButton() {
-        let clearButton = UIButton(type: .custom)
+        let clearButton = UIButton(type: .system)
         clearButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
         clearButton.tintColor = Colors.primary
         clearButton.addTarget(self, action: #selector(clearText), for: .touchUpInside)
