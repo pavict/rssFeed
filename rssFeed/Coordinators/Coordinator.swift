@@ -74,6 +74,7 @@ extension Coordinator {
                 let articleWebViewVM = ArticleWebViewVM(url: url)
                 let articleWebViewVC = ArticleWebViewVC.instantiate(viewModel: articleWebViewVM)
                 
+                articleWebViewVC.hidesBottomBarWhenPushed = true
                 navigationController.pushViewController(articleWebViewVC, animated: true)
             }
         }
