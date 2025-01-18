@@ -14,9 +14,14 @@ protocol FavouritesVMProtocol {
     
     func numberOfItems() -> Int
     func item(at index: Int) -> CustomRSSFeed
+    func didTapFeed(at index: Int)
 }
 
 final class FavouritesVM {
+    
+    // MARK: - Coordinator actions
+    
+    var onFeedSelected: (CustomRSSFeed) -> Void = { _ in }
     
     // MARK: - Public properties
     
@@ -59,6 +64,7 @@ private extension FavouritesVM {
 }
 
 extension FavouritesVM: FavouritesVMProtocol {
+    
     var title: String {
         Strings.Favourites.title
     }
@@ -69,5 +75,9 @@ extension FavouritesVM: FavouritesVMProtocol {
     
     func item(at index: Int) -> CustomRSSFeed {
         return rssFeeds[index]
+    }
+    
+    func didTapFeed(at index: Int) {
+        onFeedSelected(rssFeeds[index])
     }
 }

@@ -107,11 +107,16 @@ private extension SettingsCell {
         }
         
         configureNotificationSwitch()
+        configureLinkExternalSwitch()
         configureDarkModeSwitch()
     }
     
     func configureNotificationSwitch() {
         notificationsSwitch.isOn = UserDefaults.standard.bool(forKey: "NotificationSwitch")
+    }
+    
+    func configureLinkExternalSwitch() {
+        linkExternalSwitch.isOn = UserDefaults.standard.bool(forKey: "isLinkExternalOn")
     }
     
     func configureDarkModeSwitch() {

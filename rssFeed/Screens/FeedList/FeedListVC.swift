@@ -47,7 +47,7 @@ final class FeedListVC: UIViewController {
     }()
     
     private lazy var tableView: UITableView = {
-        let tv = UITableView(frame: .zero, style: .grouped)
+        let tv = UITableView(frame: .zero, style: .insetGrouped)
         tv.register(FeedCell.self)
         tv.dataSource = self
         tv.delegate = self
@@ -67,7 +67,6 @@ final class FeedListVC: UIViewController {
 // MARK: - Private extension
 private extension FeedListVC {
     func configureSelf() {
-//        navigationItem.largeTitleDisplayMode = .always
         title = viewModel.title
         self.view.backgroundColor = Colors.tertiary
         

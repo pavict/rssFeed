@@ -36,7 +36,7 @@ final class FavouritesVC: UIViewController {
     }()
     
     private lazy var tableView: UITableView = {
-        let tv = UITableView(frame: .zero, style: .plain)
+        let tv = UITableView(frame: .zero, style: .insetGrouped)
         tv.register(FeedCell.self)
         tv.dataSource = self
         tv.delegate = self
@@ -130,6 +130,7 @@ extension FavouritesVC: UITableViewDataSource {
 // MARK: - TableView Delegate
 extension FavouritesVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.didTapFeed(at: indexPath.row)
         tableView.deselectRow(at: indexPath, animated: false)
     }
 }

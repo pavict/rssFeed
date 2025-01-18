@@ -63,4 +63,19 @@ extension Coordinator {
         
         navigationController.present(alert, animated: true, completion: nil)
     }
+    
+    func openLink(url: String, in navigationController: UINavigationController) {
+        if let shouldGoExternal = UserDefaults.standard.value(forKey: "isLinkExternalOn") as? Bool {
+            if shouldGoExternal {
+                if let url = URL(string: url) {
+                    UIApplication.shared.open(url)
+                }
+            } else {
+                let articleWebViewVM = ArticleWebViewVM(url: url)
+                let articleWebViewVC = ArticleWebViewVC.instantiate(viewModel: articleWebViewVM)
+                
+                navigationController.pushViewController(articleWebViewVC, animated: true)
+            }
+        }
+    }
 }
