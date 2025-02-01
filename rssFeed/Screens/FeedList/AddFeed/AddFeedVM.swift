@@ -9,6 +9,7 @@ import Foundation
 import RxSwift
 import RxRelay
 import FeedKit
+import CoreData
 
 protocol AddFeedVMProtocol {
     var state: Observable<State> { get }
@@ -48,9 +49,36 @@ final class AddFeedVM {
             parser.parseAsync(queue: DispatchQueue.global(qos: .userInitiated)) { result in
                 switch result {
                 case .success(let feed):
+                    
+//                    switch feed {
+//                    case .atom(_):
+//                        if let feed = feed.atomFeed {
+//                            
+//                        }
+//                    case .rss(_):
+//                        <#code#>
+//                    case .json(_):
+//                        <#code#>
+//                    }
                     if let rssFeed = feed.rssFeed {
-                        let feed = CustomRSSFeed(feed: rssFeed, isFavourite: false)
+                        let articles = rssFeed.items?.compactMap { item in
+                            MyArticle(
+                                name: item.title ?? Strings.empty,
+                                description: item.description ?? Strings.empty,
+                                link: item.link ?? Strings.empty,
+                                image: item.enclosure?.attributes?.url ?? ""
+                            )
+                        } ?? []
+
+                        let feed = MyRSSFeed(
+                            name: rssFeed.title ?? Strings.empty,
+                            image: rssFeed.image?.url ?? Strings.empty,
+                            description: rssFeed.description ?? Strings.empty,
+                            articles: articles
+                        )
+//                        let feed = CustomRSSFeed(feed: rssFeed, isFavourite: false)
                         self.feedService.addFeed(feed: feed)
+                        self.saveRSSFeed(feed: feed)
                         self._state.accept(.loaded)
                     }
                 case .failure(let error):
@@ -65,6 +93,27 @@ final class AddFeedVM {
             self._state.accept(.empty)
             self.onNeedsAlert(Strings.Error.invalidUrl)
         }
+    }
+    
+    func saveRSSFeed(feed: MyRSSFeed) {
+        print("SAVING FEED \(feed.name)")
+        let context = CoreDataManager.shared.context
+        let feedEntity = MyRSSFeedEntity(context: context)
+
+        feedEntity.name = feed.name
+        feedEntity.image = feed.image
+        feedEntity.desc = feed.description
+
+        for article in feed.articles {
+            let articleEntity = MyArticleEntity(context: context)
+            articleEntity.name = article.name
+            articleEntity.desc = article.description
+            articleEntity.link = article.link
+            articleEntity.image = article.image
+            articleEntity.feed = feedEntity
+        }
+
+        CoreDataManager.shared.saveContext()
     }
 }
 

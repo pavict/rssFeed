@@ -15,7 +15,7 @@ protocol ArticleListVMProtocol {
     var title: String { get }
     
     func numberOfItems() -> Int
-    func item(at index: Int) -> RSSFeedItem
+    func item(at index: Int) -> MyArticle
     func didSelectItem(at index: Int)
 }
 
@@ -36,11 +36,11 @@ final class ArticleListVM {
     private lazy var _state = BehaviorRelay<State>(value: .loading)
     private let disposeBag = DisposeBag()
     private let feedTitle: String
-    private let items: [RSSFeedItem]
+    private let items: [MyArticle]
     
     // MARK: Class lifecycle
     
-    init(feed: String, items: [RSSFeedItem]) {
+    init(feed: String, items: [MyArticle]) {
         self.feedTitle = feed
         self.items = items
     }
@@ -57,11 +57,11 @@ extension ArticleListVM: ArticleListVMProtocol {
         items.count
     }
     
-    func item(at index: Int) -> RSSFeedItem {
+    func item(at index: Int) -> MyArticle {
         items[index]
     }
     
     func didSelectItem(at index: Int) {
-        onDidSelectItem?(items[index].link ?? Strings.empty)
+        onDidSelectItem?(items[index].link)
     }
 }

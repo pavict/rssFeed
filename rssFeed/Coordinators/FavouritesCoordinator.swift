@@ -39,8 +39,8 @@ private extension FavouritesCoordinator {
         navigationController.pushViewController(favouritesVC, animated: true)
     }
     
-    func pushArticleListScreen(for feed: CustomRSSFeed, in navigationController: UINavigationController) {
-        let articleListVM = ArticleListVM(feed: feed.feed.title ?? Strings.empty, items: feed.feed.items ?? [])
+    func pushArticleListScreen(for feed: MyRSSFeed, in navigationController: UINavigationController) {
+        let articleListVM = ArticleListVM(feed: feed.name, items: feed.articles)
         let articleListVC = ArticleListVC.instantiate(viewModel: articleListVM)
         
         articleListVM.onDidSelectItem = { item in

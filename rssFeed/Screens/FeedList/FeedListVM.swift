@@ -9,6 +9,7 @@ import Foundation
 import FeedKit
 import RxSwift
 import RxRelay
+import CoreData
 
 // MARK: - State enum
 enum State {
@@ -23,11 +24,11 @@ protocol FeedListVMProtocol {
     var title: String { get }
     
     func numberOfItems() -> Int
-    func item(at index: Int) -> CustomRSSFeed
+    func item(at index: Int) -> MyRSSFeed
     func deleteItem(at index: Int)
     func didTapAddButton()
     func didTapFeed(at index: Int)
-    func toggleFavourite(feed: CustomRSSFeed)
+    func toggleFavourite(feed: MyRSSFeed)
 }
 
 final class FeedListVM {
@@ -35,7 +36,7 @@ final class FeedListVM {
     // MARK: - Coordinator actions
     
     var onAddButton: () -> Void = { }
-    var onFeedSelected: (CustomRSSFeed) -> Void = { _ in }
+    var onFeedSelected: (MyRSSFeed) -> Void = { _ in }
     
     // MARK: - Public properties
     
@@ -48,14 +49,37 @@ final class FeedListVM {
     private lazy var _state = BehaviorRelay<State>(value: .loading)
     private let disposeBag = DisposeBag()
     private let feedService: FeedServiceProtocol
-    private var rssFeeds: [CustomRSSFeed] = []
+    private var rssFeeds: [MyRSSFeed] = []
     
     // MARK: Class lifecycle
     
     init(feedService: FeedServiceProtocol) {
         self.feedService = feedService
         
+        fetchSavedFeeds()
         bindService()
+    }
+    
+    func fetchSavedFeeds() {
+        let context = CoreDataManager.shared.context
+        let fetchRequest: NSFetchRequest<MyRSSFeedEntity> = MyRSSFeedEntity.fetchRequest()
+
+        do {
+            let savedFeeds = try context.fetch(fetchRequest)
+            for feed in savedFeeds {
+                print("Name: \(feed.name ?? "No name")")
+                print("Image: \(feed.image ?? "No image")")
+                print("Description: \(feed.desc ?? "No description")")
+                
+                if let articles = feed.articles as? Set<MyArticleEntity> {
+                    for article in articles {
+                        print("    Article Name: \(article.name ?? "No article name")")
+                    }
+                }
+            }
+        } catch {
+            print("Error fetching data: \(error)")
+        }
     }
 }
 
@@ -91,12 +115,12 @@ extension FeedListVM: FeedListVMProtocol {
         rssFeeds.count
     }
     
-    func item(at index: Int) -> CustomRSSFeed {
+    func item(at index: Int) -> MyRSSFeed {
         rssFeeds[index]
     }
     
     func deleteItem(at index: Int) {
-        feedService.deleteFeed(feed: rssFeeds[index].feed)
+        feedService.deleteFeed(feed: rssFeeds[index])
     }
     
     func didTapAddButton() {
@@ -107,7 +131,7 @@ extension FeedListVM: FeedListVMProtocol {
         onFeedSelected(rssFeeds[index])
     }
     
-    func toggleFavourite(feed: CustomRSSFeed) {
+    func toggleFavourite(feed: MyRSSFeed) {
         feedService.toggleFavourite(feed: feed)
     }
 }

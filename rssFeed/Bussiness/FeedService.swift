@@ -10,11 +10,11 @@ import RxSwift
 import RxRelay
 
 protocol FeedServiceProtocol {
-    var feedList: Observable<[CustomRSSFeed]?> { get }
+    var feedList: Observable<[MyRSSFeed]?> { get }
     
-    func addFeed(feed: CustomRSSFeed)
-    func deleteFeed(feed: RSSFeed)
-    func toggleFavourite(feed: CustomRSSFeed)
+    func addFeed(feed: MyRSSFeed)
+    func deleteFeed(feed: MyRSSFeed)
+    func toggleFavourite(feed: MyRSSFeed)
 }
 
 class FeedService {
@@ -23,36 +23,36 @@ class FeedService {
     
     static let shared = FeedService()
     
-    lazy var feedList: Observable<[CustomRSSFeed]?> = {
+    lazy var feedList: Observable<[MyRSSFeed]?> = {
         return _feedList.asObservable()
     }()
     
     // MARK: - Private properties
     
-    private lazy var _feedList = BehaviorRelay<[CustomRSSFeed]?>.init(value: nil)
+    private lazy var _feedList = BehaviorRelay<[MyRSSFeed]?>.init(value: nil)
     
     // MARK: - Class Lifecycle
         
-    init(initialFeeds: [CustomRSSFeed]? = nil) {
+    init(initialFeeds: [MyRSSFeed]? = nil) {
         _feedList.accept(initialFeeds)
     }
 }
 
 extension FeedService: FeedServiceProtocol {
     
-    func addFeed(feed: CustomRSSFeed) {
+    func addFeed(feed: MyRSSFeed) {
         var currentFeeds = _feedList.value ?? []
         currentFeeds.append(feed)
         _feedList.accept(currentFeeds)
     }
     
-    func deleteFeed(feed: RSSFeed) {
+    func deleteFeed(feed: MyRSSFeed) {
         var currentFeeds = _feedList.value ?? []
-        currentFeeds.removeAll(where: { $0.feed == feed })
+        currentFeeds.removeAll(where: { $0.name == feed.name })
         _feedList.accept(currentFeeds)
     }
     
-    func toggleFavourite(feed: CustomRSSFeed) {
+    func toggleFavourite(feed: MyRSSFeed) {
         feed.isFavourite.accept(!feed.isFavourite.value)
         _feedList.accept(_feedList.value)
     }

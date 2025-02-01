@@ -91,7 +91,7 @@ private extension FeedCell {
         }
     }
     
-    func bindObservers(for feed: CustomRSSFeed) {
+    func bindObservers(for feed: MyRSSFeed) {
         feed.isFavourite
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] isFavourite in
@@ -108,10 +108,10 @@ private extension FeedCell {
 
 // MARK: - Public extension
 extension FeedCell {
-    func configure(with feed: CustomRSSFeed, shouldShowFavouriteButton: Bool) {
-        feedNameLabel.text = feed.feed.title
-        descriptionLabel.text = feed.feed.description
-        feedImageView.sd_setImage(with: URL(string: feed.feed.image?.url ?? Strings.empty), placeholderImage: .rssFeedIcon)
+    func configure(with feed: MyRSSFeed, shouldShowFavouriteButton: Bool) {
+        feedNameLabel.text = feed.name
+        descriptionLabel.text = feed.description
+        feedImageView.sd_setImage(with: URL(string: feed.image), placeholderImage: .rssFeedIcon)
         favouriteButton.isHidden = !shouldShowFavouriteButton
         
         bindObservers(for: feed)

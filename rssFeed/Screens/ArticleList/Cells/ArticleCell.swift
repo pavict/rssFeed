@@ -73,8 +73,8 @@ private extension ArticleCell {
 }
 
 extension ArticleCell {
-    func configure(with article: RSSFeedItem) {
-        nameLabel.text = article.title
+    func configure(with article: MyArticle) {
+        nameLabel.text = article.name
         descriptionLabel.text = article.description
     }
 }

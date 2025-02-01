@@ -13,7 +13,7 @@ protocol FavouritesVMProtocol {
     var title: String { get }
     
     func numberOfItems() -> Int
-    func item(at index: Int) -> CustomRSSFeed
+    func item(at index: Int) -> MyRSSFeed
     func didTapFeed(at index: Int)
 }
 
@@ -21,7 +21,7 @@ final class FavouritesVM {
     
     // MARK: - Coordinator actions
     
-    var onFeedSelected: (CustomRSSFeed) -> Void = { _ in }
+    var onFeedSelected: (MyRSSFeed) -> Void = { _ in }
     
     // MARK: - Public properties
     
@@ -34,7 +34,7 @@ final class FavouritesVM {
     private lazy var _state = BehaviorRelay<State>(value: .loading)
     private let disposeBag = DisposeBag()
     private let feedService: FeedServiceProtocol
-    private var rssFeeds: [CustomRSSFeed] = []
+    private var rssFeeds: [MyRSSFeed] = []
     
     // MARK: Class lifecycle
     
@@ -73,7 +73,7 @@ extension FavouritesVM: FavouritesVMProtocol {
         return rssFeeds.count
     }
     
-    func item(at index: Int) -> CustomRSSFeed {
+    func item(at index: Int) -> MyRSSFeed {
         return rssFeeds[index]
     }
     
