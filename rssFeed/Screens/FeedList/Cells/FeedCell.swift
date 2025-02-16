@@ -35,15 +35,6 @@ final class FeedCell: UITableViewCell, ReusableView {
         return image
     }()
     
-    private lazy var textStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [feedNameLabel, descriptionLabel])
-        stack.axis = .vertical
-        stack.alignment = .top
-        stack.distribution = .fill
-        stack.spacing = 10
-        return stack
-    }()
-    
     private lazy var favouriteButton: UIButton = {
         let btn = UIButton()
         btn.setImage(UIImage(systemName: "star"), for: .normal)
@@ -54,10 +45,28 @@ final class FeedCell: UITableViewCell, ReusableView {
         return btn
     }()
     
-    private lazy var contentStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [feedImageView, textStackView, favouriteButton])
+    private lazy var headerStackView: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [feedImageView, textStackView])
         stack.axis = .horizontal
         stack.alignment = .fill
+        stack.distribution = .fill
+        stack.spacing = 10
+        return stack
+    }()
+    
+    private lazy var textStackView: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [feedNameLabel, favouriteButton])
+        stack.axis = .horizontal
+        stack.alignment = .fill
+        stack.distribution = .fill
+        stack.spacing = 20
+        return stack
+    }()
+    
+    private lazy var contentStackView: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [headerStackView, descriptionLabel])
+        stack.axis = .vertical
+        stack.alignment = .top
         stack.distribution = .fill
         stack.spacing = 20
         return stack
@@ -81,8 +90,13 @@ private extension FeedCell {
         contentView.addSubview(contentStackView)
         
         contentStackView.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(10)
-            $0.right.equalToSuperview().inset(20)
+            $0.leading.equalToSuperview().inset(10)
+            $0.top.bottom.trailing.equalToSuperview().inset(20)
+        }
+        
+        let favouriteWidth: CGFloat = 30
+        favouriteButton.snp.makeConstraints {
+            $0.size.height.equalTo(favouriteWidth)
         }
         
         let imageWidth: CGFloat = 130
